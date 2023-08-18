@@ -1,0 +1,44 @@
+---
+title: "Testing functions"
+format: html
+editor: visual
+---
+
+```{r}
+library(testthat)
+```
+
+## write a function
+
+```{r}
+mean_range <- function(df) {
+  col_means <- apply(X = df, MARGIN = 2, FUN = mean, na.rm = TRUE)
+  col_mean_max <- max(col_means)
+  col_mean_min <- min(col_means)
+  col_min_max <- return(c(col_mean_min, col_mean_max))
+}
+```
+
+```{r}
+mean_range(mtcars)
+```
+
+```{r}
+
+test_min_max <- data.frame(col1 = c(10, 10, 10),
+                           col2 = c(10, 10, 10),
+                           col3 = c(10, 10, 10))
+
+mean_range(test_min_max)
+```
+
+## unit tests
+
+```{r}
+# if no message is returned, it works
+expect_length(mean_range(mtcars), 2)
+
+expect_type(mean_range(mtcars), "double")
+
+expect_true(mean_range(mtcars)[1] <= mean_range(mtcars)[2])
+```
